@@ -5,7 +5,7 @@ pipeline {
         stage("Checkout the code") {
             steps {
                 // Checkout the specified branch from the Git repository //
-                checkout([$class: 'GitSCM', branches: [[name: 'build']], userRemoteConfigs: [[url: 'git@github.com:ashwanimariox/k8s.jkns-dkr.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'git@github.com:ashwanimariox/k8s.jkns-dkr.git']]])
             }
         }
         stage("Check React dependencies and install if needed") {

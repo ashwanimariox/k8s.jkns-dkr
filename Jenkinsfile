@@ -1,21 +1,20 @@
 pipeline {
-    agent {
-        label "any"
-    }
+    agent any
+
     stages {
         stage("Checkout the code") {
             steps {
-                // Checkout the specified branch from the Git repository
+                // Checkout the specified branch from the Git repository //
                 checkout([$class: 'GitSCM', branches: [[name: 'build']], userRemoteConfigs: [[url: 'git@github.com:marioxsoftware/indiaBee.git']]])
             }
         }
         stage("Check React dependencies and install if needed") {
             steps {
-                // Check if React dependencies are present
+                // Check if React dependencies are present //
                 script {
                     def reactInstalled = fileExists('node_modules')
                     if (!reactInstalled) {
-                        // Install npm dependencies
+                        // Install npm dependencies //
                         sh "npm install"
                     }
                 }
@@ -23,32 +22,33 @@ pipeline {
         }
         stage("Run tests") {
             steps {
-                // Run tests
+                // Run tests //
                 sh "npm test"
             }
         }
         stage("Build Docker image") {
             steps {
-                // Build Docker image
+                // Build Docker image //
                 sh "docker build -t ashwanidevops321/jenkins-docker-kubernates:1 ."
             }
         }
         stage("Push Docker image to Docker Hub") {
             steps {
-                // Log in to Docker Hub
+                // Log in to Docker Hub //
                 withDockerRegistry([credentialsId: 'DOCKER_HUB_ID', url: 'https://index.docker.io/v1/']) {
-                    // Push Docker image to Docker Hub
+                    // Push Docker image to Docker Hub //
                     sh "docker push ashwanidevops321/jenkins-docker-kubernates:1"
                 }
             }
         }
         stage("Run Docker container") {
             steps {
-                // Run Docker container from the pushed image
+                // Run Docker container from the pushed image //
                 sh "docker run -d -p 5000:5000 ashwanidevops321/jenkins-docker-kubernates:1"
             }
         }
     }
+
     post {
         always {
             echo "========always========"

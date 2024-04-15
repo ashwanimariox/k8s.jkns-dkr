@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: react-container
-          image: ashwanidevops321/jenkins-docker-kubernetes:1
+          image: ashwanidevops321/jenkins-docker-kubernates:1
           ports:
             - containerPort: 5000
